@@ -37,12 +37,17 @@ class lesson3 {
 
 
 //        var testObj: Test? = Test()
-        testObj = null
+//        testObj = null
     }
 
     //1:00:00 Массивы и коллекции
-    fun mainSecondPart(){
-
+    fun mainSecondPart() {
+        //val phrase: Array<String> = arrayOf("first", "second")
+        //Можно записать сокращенно, компилятор сам поймет тип
+        val phrase = arrayOf("first", "second")
+        val word = phrase[1]
+        phrase[1] = "secondNew"
+        phrase.size
     }
 }
 
