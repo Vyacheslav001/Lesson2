@@ -11,8 +11,14 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         if (savedInstanceState == null)
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, MainFragment.newInstance()).commit()
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, MainFragment.newInstance()).commit()
+
+        //Lesson3.kt
+//        val lesson = Lesson3()
+//        lesson.mainSecondPart()
+//        lesson.mainSecondPart2(this)
+        //Lesson3.kt
     }
 }
 
