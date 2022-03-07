@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
+import com.example.lesson2.viewmodel.AppState
 import java.security.AccessControlContext
 
 class Lesson3 {

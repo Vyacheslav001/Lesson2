@@ -11,7 +11,7 @@ import kotlin.random.Random
 
 class MainViewModel(
     private val liveDataToObserve: MutableLiveData<AppState> = MutableLiveData(),
-    val repositoryImpl: RepositoryImpl = RepositoryImpl(),
+    private val repositoryImpl: RepositoryImpl = RepositoryImpl(),
 ) :
     ViewModel() {
     /*
@@ -19,20 +19,42 @@ class MainViewModel(
         return liveDataToObserve
     }
     */
-
     val r: Int = Random.nextInt(10)
-
     fun getLiveData() = liveDataToObserve
 
-    fun getDataFromRemoteSource() {
+    fun getWeatherFromLocalSourceWorld() {
+        getDataFromLocalSource(false)
+    }
+
+    fun getWeatherFromLocalSourceRus() {
+        getDataFromLocalSource(true)
+    }
+
+    private fun getDataFromLocalSource(isRussian: Boolean) {
         liveDataToObserve.postValue(AppState.Loading)
         Thread {
-            sleep(2000)
-            if (r > 5) {
-                liveDataToObserve.postValue(AppState.Success(repositoryImpl.getWeatherFromRemoteSource()))
+            sleep(1000)
+            if (isRussian) {
+                liveDataToObserve.postValue(AppState.Success(repositoryImpl.getWeatherFromLocalStorageRus()))
             } else {
-                liveDataToObserve.postValue(AppState.Error(IllegalStateException()))
+                liveDataToObserve.postValue(AppState.Success(repositoryImpl.getWeatherFromLocalStorageWorld()))
             }
         }.start()
     }
 }
+
+//ДЗ Lesson2
+
+//val r: Int = Random.nextInt(10)
+
+//    fun getDataFromRemoteSource() {
+//        liveDataToObserve.postValue(AppState.Loading)
+//        Thread {
+//            sleep(2000)
+//            if (r > 5) {
+//                liveDataToObserve.postValue(AppState.Success(repositoryImpl.getWeatherFromLocalSource()))
+//            } else {
+//                liveDataToObserve.postValue(AppState.Error(IllegalStateException()))
+//            }
+//        }.start()
+//    }
