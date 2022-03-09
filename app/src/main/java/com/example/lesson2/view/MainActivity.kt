@@ -3,6 +3,7 @@ package com.example.lesson2.view
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.lesson2.R
+import com.example.lesson2.lesson4.LambdaJava
 import com.example.lesson2.view.main.MainFragment
 
 class MainActivity : AppCompatActivity() {
@@ -19,6 +20,8 @@ class MainActivity : AppCompatActivity() {
 //        lesson.mainSecondPart()
 //        lesson.mainSecondPart2(this)
         //Lesson3.kt
+
+        LambdaJava.main()
     }
 }
 
