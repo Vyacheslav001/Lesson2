@@ -3,6 +3,9 @@ package com.example.lesson2.lesson4;
 import android.util.Log;
 
 public class LambdaJava {
+    {
+        int a;
+    }
     public static void main() {
         Operation operation = new Operation() {
             @Override
