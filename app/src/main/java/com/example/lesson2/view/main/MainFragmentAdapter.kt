@@ -16,7 +16,8 @@ import com.example.lesson2.view.OnItemViewClickListener
 class MainFragmentAdapter : RecyclerView.Adapter<MainFragmentAdapter.MainFragmentViewHolder>() {
 
     private var weatherData: List<Weather> = listOf()
-//        set(value) { //Меняем сеттер, используем теневое поле "field", но это не желательный код
+
+    //        set(value) { //Меняем сеттер, используем теневое поле "field", но это не желательный код
 //            field = value
 //            notifyDataSetChanged()
 //        }
@@ -25,9 +26,10 @@ class MainFragmentAdapter : RecyclerView.Adapter<MainFragmentAdapter.MainFragmen
         weatherData = data
         notifyDataSetChanged()
     }
+
     private lateinit var listener: OnItemViewClickListener
 
-    fun setOnItemViewClickListener(onItemViewClickListener: OnItemViewClickListener){
+    fun setOnItemViewClickListener(onItemViewClickListener: OnItemViewClickListener) {
         listener = onItemViewClickListener
     }
 
@@ -50,7 +52,7 @@ class MainFragmentAdapter : RecyclerView.Adapter<MainFragmentAdapter.MainFragmen
             itemView.findViewById<TextView>(R.id.mainFragmentRecyclerItemTextView).text =
                 weather.city.name
             itemView.setOnClickListener(object : View.OnClickListener {
-                override fun onClick(v: View?) {
+                override fun onClick(view: View?) {
                     Toast.makeText(itemView.context, "WORK", Toast.LENGTH_SHORT).show()
                     listener.onItemClick(weather)
                 }

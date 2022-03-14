@@ -3,6 +3,7 @@ package com.example.lesson2.view
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.lesson2.R
+import com.example.lesson2.lesson4.Extension
 import com.example.lesson2.lesson4.LambdaJava
 import com.example.lesson2.lesson4.LambdaKotlin
 import com.example.lesson2.view.main.MainFragment
@@ -22,7 +23,7 @@ class MainActivity : AppCompatActivity() {
 //        lesson.mainSecondPart2(this)
         //Lesson3.kt
 
-        LambdaKotlin().main()
+        Extension().main()
 //        LambdaJava.main()
     }
 }
