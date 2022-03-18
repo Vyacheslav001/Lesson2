@@ -23,7 +23,7 @@ class DetailsFragment : Fragment() {
             return MainFragment()
         }
         или коротко: */
-        fun newInstance(bundle: Bundle): DetailsFragment{
+        fun newInstance(bundle: Bundle): DetailsFragment {
             val fragment = DetailsFragment()
             fragment.arguments = bundle
             return fragment
@@ -44,15 +44,23 @@ class DetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-val weather = arguments?.getParcelable<Weather>(BUNDLE_WEATHER_KEY) ?: Weather()
-        setData(weather)
+        arguments?.let {
+            val weather = it?.getParcelable<Weather>(BUNDLE_WEATHER_KEY) ?: Weather()
+            setData(weather)
+        }
     }
 
     private fun setData(weather: Weather) {
-        binding.cityName.text = weather.city.name
-        binding.cityCoordinates.text = ("lat ${weather.city.lat}\nlon ${weather.city.lon}")
-        binding.temperatureValue.text = weather.temperature.toString()
-        binding.feelsLikeValue.text = "${weather.feelsLike}" //а можно записать так
+        with(binding) {
+            with(weather){
+                cityName.text = city.name
+                cityCoordinates.text = ("lat ${city.lat}\nlon ${city.lon}")
+                temperatureValue.text = temperature.toString()
+                feelsLikeValue.text = "$feelsLike" //а можно записать так }
+            }
+
+        }
+
     }
 
     override fun onDestroy() {

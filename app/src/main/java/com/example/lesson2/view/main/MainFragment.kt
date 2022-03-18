@@ -34,7 +34,12 @@ class MainFragment : Fragment(), OnItemViewClickListener {
     */
     private var isDataSetRus: Boolean = true
     private var adapter = MainFragmentAdapter()
-    private lateinit var viewModel: MainViewModel
+
+    //Инициализировать сразу мы не можем, т.к. фрагмент не создал свою view (не внедрился в свою структуру) и тогда будет ошибка:
+    //private val viewModel: MainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+    private val viewModel: MainViewModel by lazy {
+        ViewModelProvider(this).get(MainViewModel::class.java)
+    }
 
     companion object {
         /*fun newInstance(): Fragment {
@@ -48,7 +53,7 @@ class MainFragment : Fragment(), OnItemViewClickListener {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 //        return inflater.inflate(R.layout.fragment_main, container, false)
         _binding = FragmentMainBinding.inflate(inflater, container, false)
         return binding.root
@@ -56,25 +61,26 @@ class MainFragment : Fragment(), OnItemViewClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.mainFragmentRecyclerView.adapter = adapter
-        adapter.setOnItemViewClickListener(this)
-        binding.mainFragmentFAB.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(v: View?) {
+        with(binding) {
+            mainFragmentRecyclerView.adapter = adapter
+            adapter.setOnItemViewClickListener(this@MainFragment)
+//        binding.mainFragmentFAB.setOnClickListener(object : View.OnClickListener {
+//            override fun onClick(v: View?) {
+//                isDataSetRus = !isDataSetRus
+            //Конвертируем в лямбду
+            mainFragmentFAB.setOnClickListener {
                 isDataSetRus = !isDataSetRus
-//                viewModel.getDataFromLocalSource(isDataSetRus) //можно написать так, либо как в методичке
+//            viewModel.getDataFromLocalSource(isDataSetRus) //можно написать так, либо как в методичке
                 if (isDataSetRus) {
                     viewModel.getWeatherFromLocalSourceRus()
-                    binding.mainFragmentFAB.setImageResource(R.drawable.ic_earth)
+                    mainFragmentFAB.setImageResource(R.drawable.ic_earth)
                 } else {
                     viewModel.getWeatherFromLocalSourceWorld()
-                    binding.mainFragmentFAB.setImageResource(R.drawable.ic_russia)
+                    mainFragmentFAB.setImageResource(R.drawable.ic_russia)
                 }
             }
-        })
-        viewModel = ViewModelProvider(this).get(
-            MainViewModel::
-            class.java
-        )
+        }
+
         viewModel.getLiveData().observe(/*2:12:00 Lesson2*/viewLifecycleOwner,
             Observer<AppState>
             { appState: AppState ->
@@ -89,11 +95,11 @@ class MainFragment : Fragment(), OnItemViewClickListener {
             is AppState.Error -> {
                 binding.mainFragmentLoadingLayout.visibility = View.GONE
                 val throwable = appState.error
-//                Snackbar.make(
-//                    binding.root,
-//                    "ERROR $throwable NUMBER: ${viewModel.r}",
-//                    Snackbar.LENGTH_LONG
-//                ).show()
+                Snackbar.make(
+                    binding.root,
+                    "ERROR $throwable NUMBER: ${viewModel.r}",
+                    Snackbar.LENGTH_LONG
+                ).show()
             }
             AppState.Loading -> {
                 binding.mainFragmentLoadingLayout.visibility = View.VISIBLE
@@ -102,14 +108,48 @@ class MainFragment : Fragment(), OnItemViewClickListener {
                 binding.mainFragmentLoadingLayout.visibility = View.GONE
                 val weather = appState.weatherData
                 adapter.setWeather(weather)
-//                Snackbar.make(
-//                    binding.root,
-//                    "Success NUMBER: ${viewModel.r}",
-//                    Snackbar.LENGTH_LONG
-//                ).show()
+                binding.root.showSnackbarWithoutAction(
+                    binding.root,
+                    R.string.success,
+                    Snackbar.LENGTH_LONG
+                )
+                binding.root.showSnackbarWithAction(
+                    binding.root,
+                    R.string.success,
+                    Snackbar.LENGTH_LONG,
+                    R.string.action_success,
+                    ::listenerForAction
+                )
+//                Snackbar.make(binding.root, "Success NUMBER: ${viewModel.r}", Snackbar.LENGTH_LONG)
+//                    .show()
             }
         }
     }
+
+    private fun listenerForAction(): View.OnClickListener {
+        val viewOnClickListener = View.OnClickListener {
+            if (isDataSetRus) {
+                viewModel.getWeatherFromLocalSourceRus()
+            } else {
+                viewModel.getWeatherFromLocalSourceWorld()
+            }
+        }
+        return viewOnClickListener
+    }
+
+    private fun View.showSnackbarWithoutAction(view: View, stringId: Int, length: Int) {
+        Snackbar.make(view, getString(stringId), length).show()
+    }
+
+    private fun View.showSnackbarWithAction(
+        view: View,
+        stringId: Int,
+        length: Int,
+        actionText: Int,
+        listener: () -> View.OnClickListener
+    ) = Snackbar.make(view, getString(stringId), length)
+        .setAction(getString(actionText), listener())
+        .show()
 
 //    private fun setData(weather: List<Weather>) {
 //        binding.cityName.text = weather.city.name

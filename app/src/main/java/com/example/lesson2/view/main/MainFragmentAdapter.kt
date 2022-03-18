@@ -16,12 +16,12 @@ import com.example.lesson2.view.OnItemViewClickListener
 class MainFragmentAdapter : RecyclerView.Adapter<MainFragmentAdapter.MainFragmentViewHolder>() {
 
     private var weatherData: List<Weather> = listOf()
-
     //        set(value) { //Меняем сеттер, используем теневое поле "field", но это не желательный код
 //            field = value
 //            notifyDataSetChanged()
 //        }
     //Сеттер для weatherData можно написать в отдельном методе
+
     fun setWeather(data: List<Weather>) {
         weatherData = data
         notifyDataSetChanged()
@@ -51,12 +51,24 @@ class MainFragmentAdapter : RecyclerView.Adapter<MainFragmentAdapter.MainFragmen
         fun render(weather: Weather) {
             itemView.findViewById<TextView>(R.id.mainFragmentRecyclerItemTextView).text =
                 weather.city.name
-            itemView.setOnClickListener(object : View.OnClickListener {
-                override fun onClick(view: View?) {
-                    Toast.makeText(itemView.context, "WORK", Toast.LENGTH_SHORT).show()
-                    listener.onItemClick(weather)
-                }
-            })
+            itemView.setOnClickListener {
+                Toast.makeText(itemView.context, "WORK", Toast.LENGTH_SHORT).show()
+                listener.onItemClick(weather)
+            }
         }
+
+//        //ТРЕНЕРОВКА С let и also
+//        fun render(weather: Weather?) {
+//            weather?.let { weather: Weather ->
+//                itemView.also { itemViewIt: View ->
+//                    itemViewIt.findViewById<TextView>(R.id.mainFragmentRecyclerItemTextView).text =
+//                        weather.city.name
+//                    itemViewIt.setOnClickListener {
+//                        Toast.makeText(itemView.context, "WORK", Toast.LENGTH_SHORT).show()
+//                        listener.onItemClick(weather)
+//                    }
+//                }
+//            }
+//        }
     }
 }

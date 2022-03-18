@@ -12,8 +12,7 @@ import kotlin.random.Random
 class MainViewModel(
     private val liveDataToObserve: MutableLiveData<AppState> = MutableLiveData(),
     private val repositoryImpl: RepositoryImpl = RepositoryImpl(),
-) :
-    ViewModel() {
+) : ViewModel() {
     /*
     fun getLiveData(): LiveData<Any>{
         return liveDataToObserve
@@ -22,24 +21,23 @@ class MainViewModel(
     val r: Int = Random.nextInt(10)
     fun getLiveData() = liveDataToObserve
 
-    fun getWeatherFromLocalSourceWorld() {
-        getDataFromLocalSource(false)
-    }
+    fun getWeatherFromLocalSourceWorld() = getDataFromLocalSource(false)
 
-    fun getWeatherFromLocalSourceRus() {
-        getDataFromLocalSource(true)
-    }
+    fun getWeatherFromLocalSourceRus() = getDataFromLocalSource(true)
 
     private fun getDataFromLocalSource(isRussian: Boolean) {
-        liveDataToObserve.postValue(AppState.Loading)
+
+        with(liveDataToObserve){
+        postValue(AppState.Loading)
         Thread {
             sleep(1000)
             if (isRussian) {
-                liveDataToObserve.postValue(AppState.Success(repositoryImpl.getWeatherFromLocalStorageRus()))
+                postValue(AppState.Success(repositoryImpl.getWeatherFromLocalStorageRus()))
             } else {
-                liveDataToObserve.postValue(AppState.Success(repositoryImpl.getWeatherFromLocalStorageWorld()))
+                postValue(AppState.Success(repositoryImpl.getWeatherFromLocalStorageWorld()))
             }
         }.start()
+        }
     }
 }
 
