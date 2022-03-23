@@ -11,6 +11,7 @@ import com.example.lesson2.R
 import com.example.lesson2.databinding.FragmentMainBinding
 import com.example.lesson2.domain.Weather
 import com.example.lesson2.view.OnItemViewClickListener
+import com.example.lesson2.view.details.DetailsFragment
 import com.example.lesson2.viewmodel.AppState
 import com.example.lesson2.viewmodel.MainViewModel
 import com.google.android.material.snackbar.Snackbar
