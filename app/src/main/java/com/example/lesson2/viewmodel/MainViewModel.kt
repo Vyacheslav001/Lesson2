@@ -13,12 +13,14 @@ class MainViewModel(
     private val liveDataToObserve: MutableLiveData<AppState> = MutableLiveData(),
     private val repositoryImpl: RepositoryImpl = RepositoryImpl(),
 ) : ViewModel() {
+
+    val r: Int = Random.nextInt(10)
+
     /*
     fun getLiveData(): LiveData<Any>{
         return liveDataToObserve
     }
     */
-    val r: Int = Random.nextInt(10)
     fun getLiveData() = liveDataToObserve
 
     fun getWeatherFromLocalSourceWorld() = getDataFromLocalSource(false)
@@ -27,16 +29,16 @@ class MainViewModel(
 
     private fun getDataFromLocalSource(isRussian: Boolean) {
 
-        with(liveDataToObserve){
-        postValue(AppState.Loading)
-        Thread {
-            sleep(1000)
-            if (isRussian) {
-                postValue(AppState.Success(repositoryImpl.getWeatherFromLocalStorageRus()))
-            } else {
-                postValue(AppState.Success(repositoryImpl.getWeatherFromLocalStorageWorld()))
-            }
-        }.start()
+        with(liveDataToObserve) {
+            postValue(AppState.Loading)
+            Thread {
+                sleep(1000)
+                if (isRussian) {
+                    postValue(AppState.Success(repositoryImpl.getWeatherFromLocalStorageRus()))
+                } else {
+                    postValue(AppState.Success(repositoryImpl.getWeatherFromLocalStorageWorld()))
+                }
+            }.start()
         }
     }
 }

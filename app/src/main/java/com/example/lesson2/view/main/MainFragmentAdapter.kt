@@ -1,7 +1,6 @@
 package com.example.lesson2.view.main
 
 import android.view.LayoutInflater
-import android.view.OnReceiveContentListener
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
@@ -12,6 +11,8 @@ import com.example.lesson2.domain.Weather
 import com.example.lesson2.view.OnItemViewClickListener
 
 //Адаптер что-то хранит, т.к. он находится между массивом и view
+//Метод setAdapter(ListAdapter) связывает подготовленный список с адаптером
+//Компоненту ListView требуются данные для наполнения. Источником наполнения могут быть массивы, базы данных. Чтобы связать данные со списком, используется так называемый адаптер.
 
 class MainFragmentAdapter : RecyclerView.Adapter<MainFragmentAdapter.MainFragmentViewHolder>() {
 
